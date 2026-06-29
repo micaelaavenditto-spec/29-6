@@ -112,3 +112,41 @@ if (header) {
   header.addEventListener("focusin", showHeader);
   updateHeaderContrast();
 }
+
+
+// Carrusel Team Venzo
+const teamSlides = [...document.querySelectorAll(".team-slide")];
+const teamPrev   = document.querySelector(".team-arrow-prev");
+const teamNext   = document.querySelector(".team-arrow-next");
+
+if (teamSlides.length) {
+  let teamCurrent = 0;
+
+  const teamGoTo = (index) => {
+    teamSlides[teamCurrent].classList.remove("active");
+    teamCurrent = (index + teamSlides.length) % teamSlides.length;
+    teamSlides[teamCurrent].classList.add("active");
+  };
+
+  // Auto-play cycling every 3.5 seconds
+  let autoCycleInterval = setInterval(() => {
+    teamGoTo(teamCurrent + 1);
+  }, 3500);
+
+  const resetInterval = () => {
+    clearInterval(autoCycleInterval);
+    autoCycleInterval = setInterval(() => {
+      teamGoTo(teamCurrent + 1);
+    }, 3500);
+  };
+
+  teamPrev?.addEventListener("click", () => {
+    teamGoTo(teamCurrent - 1);
+    resetInterval();
+  });
+
+  teamNext?.addEventListener("click", () => {
+    teamGoTo(teamCurrent + 1);
+    resetInterval();
+  });
+}
